@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 
+	"example.com/proto_buff_go/src/complex"
 	"example.com/proto_buff_go/src/enum_example"
 	"example.com/proto_buff_go/src/simple"
 	"google.golang.org/protobuf/encoding/protojson"
@@ -18,10 +19,16 @@ func main() {
 	readAndWrite("simple.txt", sm)
 	smAsString := toJson(sm)
 	fmt.Println(smAsString)
-
 	sm3 := &simple.SimpleMessage{}
 	fromJSON([]byte(smAsString), sm3)
 	fmt.Println(sm3.Name)
+
+	// enum
+	doENUM()
+
+	// do complex struct
+	doCOMPLEX()
+
 }
 
 // function for protobuff to json
@@ -95,6 +102,28 @@ func doENUM() *enum_example.EnumMessage {
 		Id:           2002,
 		DayOfTheWeek: 6,
 	}
+	fmt.Println(&ep)
 	return &ep
 
+}
+
+func doCOMPLEX() *complex.ComplexMessage {
+	cm := complex.ComplexMessage{
+		OneDummy: &complex.DummyMessage{
+			Id:   1,
+			Name: "puneetha",
+		},
+		MultipleDummy: []*complex.DummyMessage{
+			{
+				Id:   2,
+				Name: "rahulll",
+			},
+			{
+				Id:   3,
+				Name: "aadhiarif",
+			},
+		},
+	}
+	fmt.Println(&cm)
+	return &cm
 }
